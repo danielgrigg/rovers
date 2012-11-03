@@ -27,9 +27,9 @@ TEST(RoverTest, can_parse_position) {
   EXPECT_EQ(Rover(14, 323, 'W'), make_rover("14 323 w"));  
   EXPECT_EQ(Rover(1, 1, 'N'), make_rover("1 1 n"));  
   EXPECT_THROW(make_rover("N N N"), std::invalid_argument);
-//  EXPECT_EQ(Rover(), make_rover("-3 4 N"));
-//  EXPECT_EQ(Rover(), make_rover("3 4 J"));
- // EXPECT_EQ(Rover(), make_rover("3.3 4.2 N"));
+  EXPECT_THROW(make_rover("-3 4 N"), std::invalid_argument);
+  EXPECT_THROW(make_rover("3 4 J"), std::invalid_argument);
+  EXPECT_THROW(make_rover("3.3 4.2 N"), std::invalid_argument);
 }
 
 TEST(RoverTest, can_turn_left) {
@@ -103,5 +103,18 @@ TEST(RoverTest, obeys_turn_commands) {
 
   EXPECT_EQ(Rover(2, 2, 'E'), command(make_rover("2 2 N"), "RX"));
   EXPECT_EQ(Rover(2, 2, 'W'), command(make_rover("2 2 N"), "RRR.LLL"));
+}
+
+TEST(RoverTest, obeys_move_commands) {
+  EXPECT_EQ(Rover(2, 3, 'N'), command(make_rover("2 2 N"), "M"));
+  EXPECT_EQ(Rover(5, 2, 'E'), command(make_rover("2 2 E"), " MMM "));
+  EXPECT_EQ(Rover(3, 2, 'E'), command(make_rover("2 2 E"), "MXm"));
+  
+}
+
+TEST(RoverTest, obeys_mixed_commands) {
+  EXPECT_EQ(Rover(1, 2, 'W'), command(make_rover("2 2 N"), "LM"));
+  EXPECT_EQ(Rover(4, 2, 'E'), command(make_rover("2 2 N"), "RMM"));
+  EXPECT_EQ(Rover(1, 4, 'W'), command(make_rover("0 0 N"), "RMMLMMRMMLMMLMMM"));
   
 }

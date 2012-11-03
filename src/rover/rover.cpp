@@ -100,7 +100,8 @@ namespace rv {
 
     // Match any subsequence so we invoke all leading, valid commands.
     if (boost::regex_search(s, sm, actions_exp)) {
-      return std::accumulate(sm[1].first, sm[1].second, r, command_once); 
+      std::string cmds(sm[1].first, sm[1].second);
+      return std::accumulate(cmds.begin(), cmds.end(), r, command_once); 
     }
     return r;
   }

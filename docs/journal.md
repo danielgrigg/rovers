@@ -118,4 +118,7 @@ I'm going to miss my lambdas and initialisers.
 Hurrah and all that.  The core model logic is there, with unit tests to prove it.  The documentation is coming along nicely too.  So far there's no real need for design or refactoring, though I have considered is making the Rover immutable - less chance of bugs. Also let's adopt a more functional 
 approach, as seen with the reduce/accumulate usage in the command() function.
 
+## 7 Rovers can be commanded to their doom
 
+I used a generic approach for transfsorming commands to Rover actions, so once one command worked
+they all worked.  Good stuff.
