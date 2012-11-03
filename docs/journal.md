@@ -87,4 +87,28 @@ we'll split the Rover program into roverlib with an API for controlling rovers a
 rovers executable - saves messing with the CMakeLists later.
 
 
+## 4 - Prioritize
 
+Ultimately we want to be able to send command lists to multiple rovers 
+and they'll execute them in order. We can break this down into smaller,
+prioritized tasks:
+
+1. A single rover can _act_ (move and rotate).
+2. A rover can perform multiple successive actions.
+3. A rover can be commmanded with ascii command strings.
+4. A rover moves only to unoccupied squares.
+5. A rover gracefully stops when an invalid command is received.
+6. Multiple rovers can explore the plateau.
+7. A user can input an environment (plateau, rovers) and rover command lists.
+8. Successive rovers explore without collisions.
+9. All user-input rovers output the final position of the exploration path.
+9. A user receives the final positions of all user-input rovers 
+10. A user can receive help using the program.
+
+## 5 Accepting change...
+
+It appears gtest 1.6 doesn't support c++11 - conflicts with its default use
+or tr1 tuple.  Although we could explicitly tell gtest to build using
+its own tuple, there's likely other issues on my platform or another.  So,
+I regretfully wave goodbye to c++11 usage in the interest of portability.
+I'm going to miss my lambdas and initialisers.

@@ -1,7 +1,8 @@
 cmake_minimum_required (VERSION 2.8)
 project (rovers)
-set (ROVERS_VERSION_MAJOR 1)
-set (ROVERS_VERSION_MINOR 0)
+set (ROVERS_VERSION_MAJOR 0)
+set (ROVERS_VERSION_MINOR 2)
+#set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++")
 
 include_directories(
   ${PROJECT_BINARY_DIR}
@@ -9,7 +10,7 @@ include_directories(
 )
 
 # It's reasonable to expect Boost to be installed.
-find_package(Boost REQUIRED COMPONENTS system program_options)
+find_package(Boost REQUIRED COMPONENTS system regex program_options)
 include_directories(${Boost_INCLUDE_DIR})
 add_subdirectory(config)
 add_subdirectory(rover)
