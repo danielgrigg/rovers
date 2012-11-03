@@ -108,7 +108,14 @@ prioritized tasks:
 ## 5 Accepting change...
 
 It appears gtest 1.6 doesn't support c++11 - conflicts with its default use
-or tr1 tuple.  Although we could explicitly tell gtest to build using
+of tr1 tuple.  Although we could explicitly tell gtest to build using
 its own tuple, there's likely other issues on my platform or another.  So,
 I regretfully wave goodbye to c++11 usage in the interest of portability.
 I'm going to miss my lambdas and initialisers.
+
+## 6 First task complete!
+
+Hurrah and all that.  The core model logic is there, with unit tests to prove it.  The documentation is coming along nicely too.  So far there's no real need for design or refactoring, though I have considered is making the Rover immutable - less chance of bugs. Also let's adopt a more functional 
+approach, as seen with the reduce/accumulate usage in the command() function.
+
+

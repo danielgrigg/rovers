@@ -22,9 +22,9 @@ class Rover : public boost::equality_comparable<Rover> {
     int y()const { return _y; }
     char facing()const { return _facing; }
 
-    Rover& left();
-    Rover& right();
-    Rover& move();
+    Rover left()const;
+    Rover right()const;
+    Rover move()const;
 
     bool operator==(const Rover& b)const;
 
@@ -39,7 +39,13 @@ std::ostream& operator<<(std::ostream& os, const Rover& r);
 
 typedef std::tr1::shared_ptr<Rover> RoverPtr;
 
- RoverPtr make_rover(const std::string& position);
+ Rover make_rover(const std::string& position);
+
+ /*
+  * @brief Execute a list of actions.
+  * @param actions - a string of [LMR] characters.
+  */
+ Rover command(Rover r, const std::string& actions);
 
 }
 
