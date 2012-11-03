@@ -122,3 +122,9 @@ approach, as seen with the reduce/accumulate usage in the command() function.
 
 I used a generic approach for transfsorming commands to Rover actions, so once one command worked
 they all worked.  Good stuff.
+
+## 8 The Plateau has plateaued
+To handle multiple rovers and prevent collisions we need to represent the plateau, specifically the occupancy of its grid tiles.  My first thought was to offer
+an entry/leave pair to handle migration between tiles and check collisions.  But
+this means the client needs to manage the strategy of moving from (a,b) -> (c,d).
+So we'll refactor the entry/leave idea.

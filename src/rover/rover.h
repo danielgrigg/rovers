@@ -2,7 +2,6 @@
 #define RV_ROVER_H
 
 #include <iosfwd>
-#include <tr1/memory>
 #include <boost/operators.hpp>
 
 namespace rv {
@@ -36,8 +35,6 @@ class Rover : public boost::equality_comparable<Rover> {
 
 
 std::ostream& operator<<(std::ostream& os, const Rover& r);
-
-typedef std::tr1::shared_ptr<Rover> RoverPtr;
 
  Rover make_rover(const std::string& position);
 

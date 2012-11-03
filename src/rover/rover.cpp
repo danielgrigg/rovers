@@ -10,7 +10,6 @@
 #include <tr1/functional>
 #include <numeric>
 
-
 namespace rv {
   using namespace boost::assign;
   using namespace std::tr1;
