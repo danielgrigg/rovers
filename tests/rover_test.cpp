@@ -32,8 +32,7 @@ TEST(RoverTest, can_parse_position) {
 }
 
 TEST(RoverTest, can_turn_left) {
-  EXPECT_EQ(Rover(1, 1, 'W'), make_rover("1 1 w")->left());
-  EXPECT_EQ(Rover(0, 0, 'S'), make_rover("0 0 w")->left());
+  EXPECT_EQ(Rover(1, 1, 'S'), make_rover("1 1 w")->left());
   EXPECT_EQ(Rover(0, 0, 'E'), make_rover("0 0 s")->left());
   EXPECT_EQ(Rover(0, 0, 'N'), make_rover("0 0 e")->left());
   EXPECT_EQ(Rover(3, 8, 'S'), make_rover("3 8 W")->left());
@@ -55,17 +54,18 @@ TEST(RoverTest, can_move_forward) {
 }
 
 TEST(RoverTest, can_sequence_turns) {
-  RoverPtr r = make_rover("5 5 n");
-  r->left(); r->left(); r->left();
-  r->right();
-  EXPECT_EQ(Rover(0, 0, 'S'), *r);
+  EXPECT_EQ(Rover(5, 5, 'S'), 
+      make_rover("5 5 n")->left()
+      .left()
+      .left()
+      .right());
 
   RoverPtr q = make_rover("5 5 e");
   for (int i = 0; i < 10; ++i) {
     q->left();
     q->right();
   }
-  EXPECT_EQ(Rover(0, 0, 'E'), *q);
+  EXPECT_EQ(Rover(5, 5, 'E'), *q);
 }
 
 TEST(RoverTest, can_sequence_actions) {
@@ -80,16 +80,13 @@ TEST(RoverTest, can_sequence_actions) {
   EXPECT_EQ(Rover(3, 5, 'S'), *r);
 
   r->left(); r->move(); r->move();
-  EXPECT_EQ(Rover(5, 5, 'N'), *r);
+  EXPECT_EQ(Rover(5, 5, 'E'), *r);
 }
 
 // plateau edges
 
 TEST(RoverTest, stays_on_plateau) {
-  //TODO - this test will require refactoring
-  //
-  RoverPtr r = make_rover("0 0 W");
-  r->move(); r->move();
-  EXPECT_EQ(Rover(0, 0, 'W'), *r);
+  //TODO - this test will require refactoring for plateau extents
+  EXPECT_EQ(Rover(0, 0, 'W'), make_rover("0 0 W")->move().move());
 }
 

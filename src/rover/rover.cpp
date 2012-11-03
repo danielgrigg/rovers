@@ -5,38 +5,57 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/assign.hpp>
+#include <tr1/tuple>
+#include <stdexcept>
 
 
 namespace rv {
-
-
   using namespace boost::assign;
+  using namespace std::tr1;
 
- std::map<const char, const char> RIGHT_TURNS = map_list_of 
+ const std::map<const char, const char> RIGHT_TURNS = map_list_of 
   ('N', 'E')
   ('E', 'S')
   ('S', 'W')
   ('W', 'N');
 
- std::map<const char, const char> LEFT_TURNS = map_list_of
+ const std::map<const char, const char> LEFT_TURNS = map_list_of
   ('N', 'W')
   ('W', 'S')
   ('S', 'E')
   ('E', 'N');
 
+ const std::map<const char, const tuple<int, int> > MOVES = map_list_of
+  ('N', make_tuple(0, 1))
+  ('E', make_tuple(1, 0))
+  ('S', make_tuple(0, -1))
+  ('W', make_tuple(-1, 0));
+
+ // Simplify access of immutable maps.
+ template <typename K, typename V>
+V constmap_get(const K key, const std::map<const K, V>& m) {
+  typename std::map<K, V>::const_iterator x = m.find(key);
+  if (x == m.end()) throw std::invalid_argument("key");
+  return x->second;
+}
  
-const Rover& Rover::left() {
+Rover& Rover::left() {
+  _facing = constmap_get(facing(), LEFT_TURNS);
   return *this;
 }
 
-const Rover& Rover::right() {
+Rover& Rover::right() {
+  _facing = constmap_get(facing(), RIGHT_TURNS);
   return *this;
 }
 
-const Rover& Rover::move() {
+Rover& Rover::move() {
+  int dx, dy;
+  tie(dx, dy) = constmap_get(facing(), MOVES);
+  _x = std::max(0, x() + dx);
+  _y = std::max(0, y() + dy);
   return *this;
 }
-
 
 bool Rover::operator==( const Rover& b)const {
   return x() == b.x() && y() == b.y() && facing() == b.facing();

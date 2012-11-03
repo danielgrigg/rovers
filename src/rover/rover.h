@@ -22,9 +22,9 @@ class Rover : public boost::equality_comparable<Rover> {
     int y()const { return _y; }
     char facing()const { return _facing; }
 
-    const Rover& left();
-    const Rover& right();
-    const Rover& move();
+    Rover& left();
+    Rover& right();
+    Rover& move();
 
     bool operator==(const Rover& b)const;
 
