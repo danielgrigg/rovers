@@ -1,0 +1,11 @@
+//
+// config.h
+//
+#ifndef _CONFIG_H
+#define _CONFIG_H
+
+#define ROVERS_VERSION_MAJOR @ROVERS_VERSION_MAJOR@
+#define ROVERS_VERSION_MINOR @ROVERS_VERSION_MINOR@
+
+#endif
+

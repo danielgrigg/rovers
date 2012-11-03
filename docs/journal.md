@@ -74,3 +74,17 @@ First steps are to
 * Create the skeleton project layout and import our docs
 * Create a git repository
 
+We don't want to go overboard with documentation, there's no handovers, contractual obligations or standards
+we need to follow, so any documents we create are for a) improving our understanding and b) clarifying 
+the decisions and assumptions made.  I believe a single design doc will suffice.
+
+## 3 - Build a solid environment
+
+We want to avoid dependencies on particular IDE's etc and they only make cross platform 
+issues more prevalent, even Qt.  So we'll assemble a little recursive CMake hierarchy,
+with a couple scripts to pull dependencies.  Even though we don't 'really' need it yet,
+we'll split the Rover program into roverlib with an API for controlling rovers and a separate
+rovers executable - saves messing with the CMakeLists later.
+
+
+
