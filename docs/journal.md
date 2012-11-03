@@ -9,12 +9,10 @@ Keep in mind this is a living and changing document.  If you wish to observe the
 
 Let's have some fun :)
 
-
 1 Initial Thoughts
-----------------
+------------------
 
 There's two sets of requirements at work here - the actual problem of implementing a working solution and secondly, providing evidence of a professional and effective development approach. After all, we're trying to prove we're more than just an ordinary hacker.
-
 
 To that end let's break the project into three parts:
  * the development 'process'
