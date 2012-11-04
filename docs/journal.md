@@ -135,5 +135,12 @@ I've placed the integration tests under RoverPlateauTest.
 ## 10 Backend is done
 I've implemented and tested the services for exploring a rover squad across a plateau.  But we're not done yet! I need to actually provide a useful driver program for the user, _rovers_.  Rovers will take user input for a squad and their commands, then invoke the rover services for the results and print it out. We also really need to update the design doc, but we're on the home stretch and having too much fun! We've got notes so it can wait :)
 
+## 11 Frontend is mostly done
+All pretty straightforward given the effort put into the backend.  We basically just parse the input and iterate over the pairs of Rovers and their commands.  Whilst we're effectively code-complete, there's a number of improvements to make.  Firstly, we can
+refactor the simulation control into Rover (or elsewhere, but Rover will suffice since
+the library is librover...) and secondly, add some basic switching between stdin and 
+file sources.  After that we need to update the docs at last and test on Ubuntu and 
+clean (any?) bugs from that.  I may look into adding some more test data files too.
+Finally, we need some light code documentation.
 
 
