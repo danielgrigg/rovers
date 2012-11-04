@@ -4,6 +4,7 @@
 #include <iosfwd>
 #include <boost/operators.hpp>
 #include <tr1/memory>
+#include "io.h"
 
 namespace rv {
 
@@ -48,6 +49,18 @@ std::ostream& operator<<(std::ostream& os, const Rover& r);
   * @param actions - a string of [LMR] characters.
   */
  Rover command(Rover r, const std::string& actions);
+
+/*
+ * @brief Simulate a single rover exploring a plateau.
+ *
+ * @param rc (Rover-position, command-list) pair.
+ * @param p Plateau the Rover will explore.
+ */
+Rover simulate_rover(RoverCommand& rc, PlateauPtr p);
+
+void simulate_squad( std::vector<RoverCommand>& rcs, 
+    const std::string& plateau_upper_right,
+    std::vector<Rover>& squad_output);
 
 }
 

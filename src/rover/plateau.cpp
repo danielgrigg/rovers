@@ -57,15 +57,15 @@ namespace rv {
 
   PlateauPtr make_plateau(int upper_right_x, int upper_right_y) {
     if (upper_right_x < 0) { 
-      throw std::invalid_argument("upper_right_x");
+      throw std::invalid_argument("Plateau x-coordinate is negative");
     }
     if (upper_right_y < 0) { 
-      throw std::invalid_argument("upper_right_y");
+      throw std::invalid_argument("Plateau y-coordinate is negative");
     }
     return PlateauPtr(new Plateau(upper_right_x, upper_right_y));
   }
 
-  static const boost::regex coordinate_exp("(\\d)\\s+(\\d)");
+  static const boost::regex coordinate_exp("(\\d+)\\s+(\\d+)");
 
   PlateauPtr make_plateau(const std::string& upper_right) {
 
@@ -76,7 +76,7 @@ namespace rv {
       const int y = boost::lexical_cast<int>(sm[2]);
       return make_plateau(x, y);
     } else {
-      throw std::invalid_argument("invalid coordinate");
+      throw std::invalid_argument("Invalid plateau dimensions");
     }
   }
 }

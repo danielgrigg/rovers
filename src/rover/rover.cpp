@@ -11,6 +11,8 @@
 #include <stdexcept>
 #include <tr1/functional>
 #include <numeric>
+#include <iterator>
+#include <algorithm>
 
 namespace rv {
   using namespace boost::assign;
@@ -45,7 +47,7 @@ namespace rv {
   template <typename K, typename V>
     V constmap_get(const K key, const std::map<const K, V>& m) {
       typename std::map<K, V>::const_iterator x = m.find(key);
-      if (x == m.end()) throw std::invalid_argument("key");
+      if (x == m.end()) throw std::invalid_argument("Key does not exist!");
       return x->second;
     }
 
@@ -100,11 +102,12 @@ namespace rv {
       const int y = boost::lexical_cast<int>(sm[2]);
 
       if (plateau && !plateau->descend(x, y)) {
-          throw std::invalid_argument("position overlaps existing rover");
+          throw std::invalid_argument(
+              "Rover crashed into a rover or outside the plateau!");
       }
       return Rover(x, y, facing, plateau);
     } else { 
-      throw std::invalid_argument("position invalid");
+      throw std::invalid_argument("Rover position is invalid");
     }
   }
 
@@ -125,6 +128,29 @@ namespace rv {
     }
     return r;
   }
+
+Rover simulate_rover(RoverCommand& rc, PlateauPtr p) {
+  std::string position, actions;
+  tie(position, actions) = rc;
+  return command(make_rover(position, p), actions);
+}
+
+
+void simulate_squad(std::vector<RoverCommand>& rcs, 
+    const std::string& plateau_upper_right,
+    std::vector<Rover>& squad_output) {
+
+  PlateauPtr plateau = make_plateau(plateau_upper_right);
+
+  squad_output.clear();
+  squad_output.reserve(rcs.size());
+
+  using std::tr1::placeholders::_1;
+  std::transform(rcs.begin(), rcs.end(), std::back_inserter(squad_output),
+      bind(simulate_rover, _1, plateau));
+
+}
+
 
 }
 

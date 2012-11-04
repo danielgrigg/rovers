@@ -36,14 +36,13 @@ std::string example_input() {
     "MMRMMRMRRM";
 }
 
-/*
- * @brief Simulate a single rover
- */
-rv::Rover simulate_rover(rv::RoverCommand& rc, rv::PlateauPtr p) {
-  std::string position, actions;
-  tie(position, actions) = rc;
-  return rv::command(rv::make_rover(position, p), actions);
-}
+const std::string UNKNOWN_ERROR = 
+  "rovers has encountered an unknown error and must exit";
+
+const std::string INVALID_INPUT_ERROR = 
+  "Invalid input format.  Read problem_description.txt for "
+  "specs or run with --help for an example.";
+
 
 int main(int argc, char* argv[]) {
   using namespace rv;
@@ -69,8 +68,7 @@ int main(int argc, char* argv[]) {
     std::cerr << e.what() << endl;
     return 1;
   } catch (...) {
-    std::cerr << "rovers has encountered an unknown error " 
-      << " and must exit." << std::endl;
+    std::cerr << UNKNOWN_ERROR << endl;
     return 1;
   }
 
@@ -79,21 +77,25 @@ int main(int argc, char* argv[]) {
 
   if (parse_rover_world(std::cin, upper_right, rover_commands)) {
 
-    using namespace std::tr1::placeholders;
+    try {
+      std::vector<rv::Rover> squad;
+      simulate_squad(rover_commands, upper_right, squad);
 
-    PlateauPtr plateau = make_plateau(upper_right);
-    std::vector<rv::Rover> squad;
-    squad.reserve(rover_commands.size());
-    std::transform(rover_commands.begin(), rover_commands.end(),
-        std::back_inserter(squad),
-        bind(simulate_rover, _1, plateau));
-
-    std::copy(squad.begin(), squad.end(), 
-        std::ostream_iterator<rv::Rover>(std::cout, "\n"));
+      std::copy(squad.begin(), squad.end(), 
+          std::ostream_iterator<rv::Rover>(std::cout, "\n"));
+    }
+    catch (std::invalid_argument e) {
+      std::cerr << "Simulation aborted: " << e.what() << endl;
+      return 1;
+    }
+    catch (...) {
+      std::cerr << UNKNOWN_ERROR << endl;
+      return 1;
+    }
 
   } else {
-    std::cerr << "Invalid input format.  Read problem_description.txt for "
-      << "specs or run with --help for an example.\n";
+    std::cerr << INVALID_INPUT_ERROR << endl;
+    return 1;
   }
 
   return 0;
