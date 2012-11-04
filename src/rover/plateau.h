@@ -70,6 +70,12 @@ namespace rv {
    * @param upper_right_y y component of upper-right coordinate
    */
   PlateauPtr make_plateau(int upper_right_x, int upper_right_y);
+
+  /*
+   * @brief Create a plateau given its upper-right coordinate.
+   * @param upper_right X Y string.
+   */
+  PlateauPtr make_plateau(const std::string& upper_right);
 }
 
 #endif

@@ -1,5 +1,8 @@
 #include "plateau.h"
 #include <utility>
+#include <boost/regex.hpp>
+#include <boost/algorithm/string.hpp>
+#include <boost/lexical_cast.hpp>
 
 namespace rv {
 
@@ -60,6 +63,21 @@ namespace rv {
       throw std::invalid_argument("upper_right_y");
     }
     return PlateauPtr(new Plateau(upper_right_x, upper_right_y));
+  }
+
+  static const boost::regex coordinate_exp("(\\d)\\s+(\\d)");
+
+  PlateauPtr make_plateau(const std::string& upper_right) {
+
+    std::string s = boost::trim_copy(upper_right);
+    boost::smatch sm;
+    if (boost::regex_match(s, sm, coordinate_exp)) {
+      const int x = boost::lexical_cast<int>(sm[1]);
+      const int y = boost::lexical_cast<int>(sm[2]);
+      return make_plateau(x, y);
+    } else {
+      throw std::invalid_argument("invalid coordinate");
+    }
   }
 }
 

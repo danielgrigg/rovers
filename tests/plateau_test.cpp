@@ -26,6 +26,10 @@ TEST(PlateauTest, new_plateau_valid) {
 
   EXPECT_EQ(13, make_plateau(9, 12)->y_size());
   EXPECT_EQ(13, make_plateau(12, 9)->x_size());
+
+  EXPECT_THROW(make_plateau("33 x"), std::invalid_argument);
+  EXPECT_EQ(12, count_empty(make_plateau("3 2")));
+  EXPECT_EQ(6, count_empty(make_plateau("  2   1 ")));
 }  
 
 TEST(PlateauTest, can_descend) {
@@ -100,4 +104,5 @@ TEST(PlateauTest, can_move_multiple) {
   EXPECT_FALSE(q->move(3,2,0,1));
   EXPECT_FALSE(q->descend(3,2));
 }
+
 
