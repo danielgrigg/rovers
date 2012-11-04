@@ -1,4 +1,6 @@
 #include "rover.h"
+#include "plateau.h"
+
 #include <iostream>
 #include <string>
 #include <boost/regex.hpp>
@@ -47,18 +49,30 @@ namespace rv {
       return x->second;
     }
 
-  Rover Rover::left()const {
-    return Rover(x(), y(), constmap_get(facing(), LEFT_TURNS));
+  Rover::Rover(int x, int y, char facing, PlateauPtr p):
+      _x(x),
+      _y(y),
+      _facing(facing),
+      _plateau(p) {}
+
+  Rover Rover::left() {
+    return Rover(x(), y(), constmap_get(facing(), LEFT_TURNS), _plateau);
   }
 
-  Rover Rover::right()const {
-    return Rover(x(), y(), constmap_get(facing(), RIGHT_TURNS));
+  Rover Rover::right() {
+    return Rover(x(), y(), constmap_get(facing(), RIGHT_TURNS), _plateau);
   }
 
-  Rover Rover::move()const {
+  Rover Rover::move() {
     int dx, dy;
     tie(dx, dy) = constmap_get(facing(), MOVES);
-    return Rover(std::max(0, x() + dx), std::max(0, y() + dy), facing());
+
+    // For testing purposes we allow a Rover to exist independently
+    // of a plateau.  Imagine Wall-E floating in a vacuum...
+    if (!_plateau || _plateau->move(x(), y(), dx, dy)) {
+      return Rover(x() + dx, y() + dy, facing(), _plateau);
+    }
+    return *this;
   }
 
   bool Rover::operator==( const Rover& b)const {
@@ -70,23 +84,31 @@ namespace rv {
     return os;
   }
 
+  // All positions must be a "X Y F" triple.
   static const boost::regex position_exp("^(\\d+) (\\d+) ([NESW])$");
+
+  // All command lists must be a sequence of {L M R} characters.
   static const boost::regex actions_exp("^([LMR]*)");
 
-  Rover make_rover(const std::string& position) {
+  Rover make_rover(const std::string& position, 
+      PlateauPtr plateau ) {
     std::string pos_up = boost::to_upper_copy(position);
     boost::smatch sm;
     if (boost::regex_match(pos_up, sm, position_exp)) {
-      std::string facing_str = sm[3];
+      const char facing = std::string(sm[3])[0];
+      const int x = boost::lexical_cast<int>(sm[1]);
+      const int y = boost::lexical_cast<int>(sm[2]);
 
-      return Rover(boost::lexical_cast<int>(sm[1]), 
-          boost::lexical_cast<int>(sm[2]), 
-          facing_str[0]);
+      if (plateau && !plateau->descend(x, y)) {
+          throw std::invalid_argument("position overlaps existing rover");
+      }
+      return Rover(x, y, facing, plateau);
     } else { 
-      throw std::invalid_argument("position");
+      throw std::invalid_argument("position invalid");
     }
   }
 
+  // Execute a single action.
   Rover command_once(Rover r, const char a) {
     return constmap_get(a, COMMANDS)(r);
   }
@@ -94,13 +116,12 @@ namespace rv {
   Rover command(Rover r, const std::string& actions) {
     std::string s = boost::trim_copy(actions);
     boost::to_upper(s);
-
     boost::smatch sm;
 
     // Match any subsequence so we invoke all leading, valid commands.
     if (boost::regex_search(s, sm, actions_exp)) {
       std::string cmds(sm[1].first, sm[1].second);
-      return std::accumulate(cmds.begin(), cmds.end(), r, command_once); 
+      return std::accumulate(cmds.begin(), cmds.end(), r, command_once);
     }
     return r;
   }

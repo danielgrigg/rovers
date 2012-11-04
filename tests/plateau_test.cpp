@@ -1,10 +1,7 @@
 #include "plateau.h"
-#include <algorithm>
 #include <stdexcept>
-
-using namespace rv;
-
 #include <gtest/gtest.h>
+using namespace rv;
 
 int count_empty(PlateauPtr p) {
   // Multi-Array doesn't support a whole container iterator.
@@ -30,40 +27,6 @@ TEST(PlateauTest, new_plateau_valid) {
   EXPECT_EQ(13, make_plateau(9, 12)->y_size());
   EXPECT_EQ(13, make_plateau(12, 9)->x_size());
 }  
-/* deprecated
-TEST(PlateauTest, can_enter_tiles) {
-  PlateauPtr p = make_plateau(0,0);
-  EXPECT_TRUE(p->enter(0,0));
-  EXPECT_FALSE(p->enter(1,0));
-  EXPECT_FALSE(p->enter(0,1));
-  EXPECT_FALSE(make_plateau(3,3)->enter(-2,1));
-  EXPECT_FALSE(make_plateau(3,3)->enter(2,-1));
-  EXPECT_TRUE(make_plateau(3,7)->enter(2, 5));
-}
-TEST(PlateauTest, single_occupancy_per_tile) {
-  PlateauPtr p = make_plateau(2,2);
-  p->enter(1,1);
-  EXPECT_FALSE(p->enter(1,1));
-  EXPECT_TRUE(p->enter(1,2));
-}
-
-*/ 
-/*
-TEST(PlateauTest, can_leave_tiles) {
-
-  // TDB - Can always leave empty tiles.  But 'should' we allow this?
-  EXPECT_TRUE(make_plateau(2,2)->leave(1,1));
-
-  EXPECT_FALSE(make_plateau(2,2)->leave(-1,1));
-  EXPECT_FALSE(make_plateau(2,2)->leave(1,-1));
-
-  PlateauPtr p = make_plateau(2,2);
-  p->enter(1,1);
-  EXPECT_TRUE(p->leave(1,1));
-  EXPECT_TRUE(p->enter(1,1));
-}
-*/
-
 
 TEST(PlateauTest, can_descend) {
 

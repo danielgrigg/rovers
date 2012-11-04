@@ -130,7 +130,10 @@ So we'll refactor the entry/leave idea.
 
 ## 9 Halfway There
 Tasks 1-6 are mostly done and backed with a battery of tests. I say mostly, because we now must integrate the Rover with the Plateau concept.  The Rovers are independent, but the Plateau is a shared resource between rovers.  Fortunately, we're single threaded ;)
+I've placed the integration tests under RoverPlateauTest.
 
+## 10 Backend is done
+I've implemented and tested the services for exploring a rover squad across a plateau.  But we're not done yet! I need to actually provide a useful driver program for the user, _rovers_.  Rovers will take user input for a squad and their commands, then invoke the rover services for the results and print it out. We also really need to update the design doc, but we're on the home stretch and having too much fun! We've got notes so it can wait :)
 
 
 

@@ -3,8 +3,13 @@
 
 #include <iosfwd>
 #include <boost/operators.hpp>
+#include <tr1/memory>
 
 namespace rv {
+
+  // Forward declaration
+class Plateau;
+typedef std::tr1::shared_ptr<Plateau> PlateauPtr;
 
 /**
  * @brief A cute little Rover, imagine Wall-E.
@@ -12,18 +17,14 @@ namespace rv {
  */
 class Rover : public boost::equality_comparable<Rover> {
   public:
-    Rover(int x, int y, char facing):
-      _x(x),
-      _y(y),
-      _facing(facing)
-  {}
+    Rover(int x, int y, char facing, PlateauPtr p= PlateauPtr());
     int x()const { return _x; }
     int y()const { return _y; }
     char facing()const { return _facing; }
 
-    Rover left()const;
-    Rover right()const;
-    Rover move()const;
+    Rover left();
+    Rover right();
+    Rover move();
 
     bool operator==(const Rover& b)const;
 
@@ -31,12 +32,16 @@ class Rover : public boost::equality_comparable<Rover> {
     int _x;
     int _y;
     char _facing;
+    PlateauPtr _plateau;
 };
-
 
 std::ostream& operator<<(std::ostream& os, const Rover& r);
 
- Rover make_rover(const std::string& position);
+/*
+ * @brief Create a rover given a position string and optional plateau.
+ */
+ Rover make_rover(const std::string& position, 
+     PlateauPtr plateau = PlateauPtr());
 
  /*
   * @brief Execute a list of actions.

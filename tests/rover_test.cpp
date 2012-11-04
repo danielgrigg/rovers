@@ -83,13 +83,10 @@ TEST(RoverTest, can_sequence_actions) {
   EXPECT_EQ(Rover(5, 5, 'E'), r);
 }
 
-// plateau edges
-
-TEST(RoverTest, stays_on_plateau) {
-  //TODO - this test will require refactoring for plateau extents
-  EXPECT_EQ(Rover(0, 3, 'W'), make_rover("0 3 W").move().move());
-  EXPECT_EQ(Rover(3, 0, 'S'), make_rover("3 0 S").move().move());
-  EXPECT_EQ(Rover(0, 0, 'W'), make_rover("1 0 W").move().move());
+TEST(RoverTest, can_roam_anywhere) {
+  EXPECT_EQ(Rover(-2, 3, 'W'), make_rover("0 3 W").move().move());
+  EXPECT_EQ(Rover(3, -2, 'S'), make_rover("3 0 S").move().move());
+  EXPECT_EQ(Rover(-1, 0, 'W'), make_rover("1 0 W").move().move());
 }
 
 TEST(RoverTest, obeys_turn_commands) {
