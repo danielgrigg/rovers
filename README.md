@@ -12,7 +12,7 @@ Repository Contents
 -------------------
 
   * src - Sources (C++ TR1 and Boost)
-  * tests - Unit tests 
+  * tests - Unit tests and test files
   * docs - Documentation
 
 Documentation
@@ -62,7 +62,7 @@ Installing
 
 Assuming you've received the repository as a tgz, first extract it:
 
-  tar xzf knight_travail.tgz
+  tar xzf rovers.tgz
  
 ### Build & Test Rovers
 
@@ -82,10 +82,6 @@ Assuming you've received the repository as a tgz, first extract it:
     ./unittest-all
 
 
-### Installing Documentation
- TODO - auto generating markdowns maybe?
-
-
 Usage
 -----
 
@@ -93,7 +89,19 @@ From the build directory, run rovers with the help option.
 
   ./rovers --help
 
-TODO - more info
+With no arguments specified, rovers reads simulation input from stdin.
+  An example session of 2 rovers on a 6x6 plateau:
+
+  ./rovers
+
+>    5 5
+>    1 2 N
+>    LMLMLMLMM
+>    3 3 E
+>    MMRMMRMRRM
+>    ^D
+
+  Where ^D signals end-of-input.
 
 Credits
 -------
