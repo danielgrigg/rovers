@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 2.8)
 project (rovers)
 set (ROVERS_VERSION_MAJOR 0)
-set (ROVERS_VERSION_MINOR 4)
+set (ROVERS_VERSION_MINOR 5)
 #set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++")
 
 include_directories(
