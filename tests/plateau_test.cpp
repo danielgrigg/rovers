@@ -30,7 +30,7 @@ TEST(PlateauTest, new_plateau_valid) {
   EXPECT_EQ(13, make_plateau(9, 12)->y_size());
   EXPECT_EQ(13, make_plateau(12, 9)->x_size());
 }  
-
+/* deprecated
 TEST(PlateauTest, can_enter_tiles) {
   PlateauPtr p = make_plateau(0,0);
   EXPECT_TRUE(p->enter(0,0));
@@ -40,7 +40,6 @@ TEST(PlateauTest, can_enter_tiles) {
   EXPECT_FALSE(make_plateau(3,3)->enter(2,-1));
   EXPECT_TRUE(make_plateau(3,7)->enter(2, 5));
 }
-
 TEST(PlateauTest, single_occupancy_per_tile) {
   PlateauPtr p = make_plateau(2,2);
   p->enter(1,1);
@@ -48,6 +47,8 @@ TEST(PlateauTest, single_occupancy_per_tile) {
   EXPECT_TRUE(p->enter(1,2));
 }
 
+*/ 
+/*
 TEST(PlateauTest, can_leave_tiles) {
 
   // TDB - Can always leave empty tiles.  But 'should' we allow this?
@@ -60,5 +61,80 @@ TEST(PlateauTest, can_leave_tiles) {
   p->enter(1,1);
   EXPECT_TRUE(p->leave(1,1));
   EXPECT_TRUE(p->enter(1,1));
+}
+*/
+
+
+TEST(PlateauTest, can_descend) {
+
+  // Check off plateau
+  EXPECT_FALSE(make_plateau(2,2)->descend(3,1));
+  EXPECT_FALSE(make_plateau(2,2)->descend(1,3));
+  EXPECT_FALSE(make_plateau(2,2)->descend(-1,1));
+  EXPECT_FALSE(make_plateau(2,2)->descend(1,-1));
+
+  // Inside plateau
+  EXPECT_TRUE(make_plateau(2,2)->descend(1,1));
+
+  // Rovers squashing rovers, uh oh!
+  PlateauPtr p = make_plateau(2,2);
+  p->descend(1,1);
+  EXPECT_FALSE(p->descend(1,1));
+  EXPECT_FALSE(p->descend(1,1)); // Multiple descents to tile
+  EXPECT_TRUE(p->descend(1,2));
+}
+
+TEST(PlateauTest, can_move) {
+  PlateauPtr p = make_plateau(2,2);
+
+  p->descend(0,0);
+  EXPECT_FALSE(p->move(0, 0, 0, 0));
+
+  // Verify still in (0,0)
+  EXPECT_FALSE(p->descend(0,0));
+
+  // Check movements across plateau boundaries. 
+  EXPECT_FALSE(p->move(0, 0, -1, 0));
+  EXPECT_FALSE(p->descend(0,0));
+  EXPECT_FALSE(p->move(0, 0, 0, -1));
+  EXPECT_FALSE(p->descend(0,0));
+  EXPECT_FALSE(p->move(-1, 0, 0, 0));
+  EXPECT_FALSE(p->move(0, 7, 0, 0));
+
+  EXPECT_TRUE(p->descend(2,2));
+  EXPECT_FALSE(p->move(2,2,1,0));
+  EXPECT_FALSE(p->move(2,2,0,1));
+  EXPECT_FALSE(p->descend(2,2));
+
+  // Check in-bound moves are ok
+  EXPECT_TRUE(p->move(2,2, -1, 0));
+  EXPECT_FALSE(p->descend(1, 2));
+  EXPECT_TRUE(p->descend(2, 2));
+  EXPECT_TRUE(p->move(2,2, 0, -1));
+  EXPECT_FALSE(p->descend(2, 1));
+
+  // Check we're limited to 0 to 1 tile moves.
+  PlateauPtr q = make_plateau(5,5);
+  q->descend(2,2);
+  EXPECT_FALSE(q->move(2,2,2,0));
+  EXPECT_FALSE(q->descend(2, 2));
+  EXPECT_FALSE(q->move(2,2,0,2));
+  EXPECT_FALSE(q->move(2,2,1,1));
+  EXPECT_FALSE(q->move(2,2,-1,-1));
+}
+
+TEST(PlateauTest, can_move_multiple) {
+  PlateauPtr q = make_plateau(5,5);
+  q->descend(1,1);
+  q->descend(3,3);
+  q->descend(2,2);
+
+  EXPECT_FALSE(q->occupied(3,2));
+  EXPECT_TRUE(q->move(1,1,1,0));
+  EXPECT_TRUE(q->move(2,2,0,1));
+  EXPECT_TRUE(q->move(2,1,0,1));
+  EXPECT_TRUE(q->move(2,2,1,0));
+  EXPECT_FALSE(q->move(3,2,0,1));
+  EXPECT_FALSE(q->descend(3,2));
 }
 

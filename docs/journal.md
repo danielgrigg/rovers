@@ -120,11 +120,17 @@ approach, as seen with the reduce/accumulate usage in the command() function.
 
 ## 7 Rovers can be commanded to their doom
 
-I used a generic approach for transfsorming commands to Rover actions, so once one command worked
-they all worked.  Good stuff.
+I used a generic approach for transforming commands to Rover actions, so once one command worked they all worked.  Good stuff.  
 
 ## 8 The Plateau has plateaued
 To handle multiple rovers and prevent collisions we need to represent the plateau, specifically the occupancy of its grid tiles.  My first thought was to offer
 an entry/leave pair to handle migration between tiles and check collisions.  But
 this means the client needs to manage the strategy of moving from (a,b) -> (c,d).
 So we'll refactor the entry/leave idea.
+
+## 9 Halfway There
+Tasks 1-6 are mostly done and backed with a battery of tests. I say mostly, because we now must integrate the Rover with the Plateau concept.  The Rovers are independent, but the Plateau is a shared resource between rovers.  Fortunately, we're single threaded ;)
+
+
+
+
