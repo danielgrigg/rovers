@@ -1,4 +1,3 @@
-
 #include "io.h"
 #include <istream>
 #include <iterator>
@@ -28,5 +27,5 @@ namespace rv {
 
     return true;
   }
-
 }
+

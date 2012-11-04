@@ -3,6 +3,7 @@
 #include <gtest/gtest.h>
 using namespace rv;
 
+// Useful function to ensure plateau occupancy is static.
 int count_empty(PlateauPtr p) {
   // Multi-Array doesn't support a whole container iterator.
   int n = 0;

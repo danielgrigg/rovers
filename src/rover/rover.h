@@ -36,6 +36,9 @@ class Rover : public boost::equality_comparable<Rover> {
     PlateauPtr _plateau;
 };
 
+/*
+ * Write a Rover to an char output stream.
+ */
 std::ostream& operator<<(std::ostream& os, const Rover& r);
 
 /*
@@ -47,6 +50,7 @@ std::ostream& operator<<(std::ostream& os, const Rover& r);
  /*
   * @brief Execute a list of actions.
   * @param actions - a string of [LMR] characters.
+  * @return The Rover at its final position.
   */
  Rover command(Rover r, const std::string& actions);
 
@@ -55,9 +59,16 @@ std::ostream& operator<<(std::ostream& os, const Rover& r);
  *
  * @param rc (Rover-position, command-list) pair.
  * @param p Plateau the Rover will explore.
+ * @return The rover at its final position.
  */
 Rover simulate_rover(RoverCommand& rc, PlateauPtr p);
 
+/*
+ * @brief Simulate a whole squad of exploring rovers.
+ * @param rcs - list of (rover-position, command-list) pairs.
+ * @param plateau_upper_right - plateau upper right coordinate
+ * @param squad_output - container to hold simulated Rovers.
+ */
 void simulate_squad( std::vector<RoverCommand>& rcs, 
     const std::string& plateau_upper_right,
     std::vector<Rover>& squad_output);

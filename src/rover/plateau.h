@@ -9,12 +9,16 @@ namespace rv {
 
   typedef boost::multi_array<bool, 2> OccupancyGrid;
 
-  // A plateau tracks tile occupancy. 
+  /*
+   * @brief A Plateau tracks rover movements along a plateau.
+   */
   class Plateau {
     public:
+
+      //! Construct a Plateau givens its upper-right coordinates.
       Plateau(int upper_right_x, int upper_right_y);
 
-
+      //! Tile is occupied by a rover.
       bool occupied(int x, int y)const;
 
       /*
@@ -40,7 +44,7 @@ namespace rv {
        * Unsuccessful moves leave the plateau state unchanged.
        * @param dx 0 or 1 tiles
        * @param dy 0 or 1 tiles
-       * @return true if move if successful. 
+       * @return true if move is successful. 
        */
       bool move(int x, int y, int dx, int dy);
 
@@ -49,6 +53,7 @@ namespace rv {
       // Is (x,y) is outside the plateau.
       bool out_of_bounds(int x, int y)const;
 
+      // Can enter tile (x,y) without collision/going out-of-bounds.
       bool can_enter(int x, int y)const;
 
       // Try entering a tile.
@@ -62,7 +67,6 @@ namespace rv {
   };
 
   typedef std::tr1::shared_ptr<Plateau> PlateauPtr;
-  
 
   /*
    * @brief Create a new plateau.
@@ -72,10 +76,11 @@ namespace rv {
   PlateauPtr make_plateau(int upper_right_x, int upper_right_y);
 
   /*
-   * @brief Create a plateau given its upper-right coordinate.
+   * @brief Create a plateau from a string coordinate.
    * @param upper_right X Y string.
    */
   PlateauPtr make_plateau(const std::string& upper_right);
 }
 
 #endif
+

@@ -1,41 +1,42 @@
 #include "rover.h"
 #include "plateau.h"
-
 #include <iostream>
 #include <string>
 #include <boost/regex.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
-#include <boost/assign.hpp>
+#include <boost/assign.hpp> 
 #include <tr1/tuple>
 #include <stdexcept>
-#include <tr1/functional>
 #include <numeric>
 #include <iterator>
-#include <algorithm>
 
 namespace rv {
   using namespace boost::assign;
   using namespace std::tr1;
 
+  // Cache right-turn combinations
   const std::map<const char, const char> RIGHT_TURNS = map_list_of 
     ('N', 'E')
     ('E', 'S')
     ('S', 'W')
     ('W', 'N');
 
+  // Cache left-turn combinations
   const std::map<const char, const char> LEFT_TURNS = map_list_of
     ('N', 'W')
     ('W', 'S')
     ('S', 'E')
     ('E', 'N');
 
+  // Cache movement deltas
   const std::map<const char, const tuple<int, int> > MOVES = map_list_of
     ('N', make_tuple(0, 1))
     ('E', make_tuple(1, 0))
     ('S', make_tuple(0, -1))
     ('W', make_tuple(-1, 0));
 
+  // Map commands to rover actions.
   const std::map<const char, function<Rover(Rover&)> > COMMANDS = 
     map_list_of 
     ('M', &Rover::move)
@@ -145,12 +146,11 @@ void simulate_squad(std::vector<RoverCommand>& rcs,
   squad_output.clear();
   squad_output.reserve(rcs.size());
 
+  // Fly my pretties!
   using std::tr1::placeholders::_1;
   std::transform(rcs.begin(), rcs.end(), std::back_inserter(squad_output),
       bind(simulate_rover, _1, plateau));
-
 }
-
 
 }
 

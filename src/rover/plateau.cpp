@@ -30,8 +30,7 @@ namespace rv {
   }
 
   bool Plateau::leave(int x, int y) {
-    
-    //TBD - should we fail on leaving an unoccupied tile?
+    // Leaving a in-bounds tile always succeeds.
     if (out_of_bounds(x, y)) return false;
     _occupied[y][x] = false;
     return true;
@@ -65,10 +64,12 @@ namespace rv {
     return PlateauPtr(new Plateau(upper_right_x, upper_right_y));
   }
 
+  // A plateau coordinate is an X Y pair.
   static const boost::regex coordinate_exp("(\\d+)\\s+(\\d+)");
 
   PlateauPtr make_plateau(const std::string& upper_right) {
 
+    // Not necessary to trim whitespace, but makes it a little easier to use.
     std::string s = boost::trim_copy(upper_right);
     boost::smatch sm;
     if (boost::regex_match(s, sm, coordinate_exp)) {

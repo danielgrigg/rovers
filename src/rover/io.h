@@ -8,6 +8,7 @@
 
 namespace rv {
 
+  // What a mouthful.
   typedef std::tr1::tuple<std::string, std::string> RoverCommand;
 
 // Parse the plateau, and pairs of rover initial-positions with

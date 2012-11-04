@@ -1,3 +1,9 @@
+/*
+ * The mighty rovers app.  
+ * The app manages all the awkward but necessary controller business.
+ * Most of the logic is delegated to the Rover API though.
+ */
+
 #include "rover.h"
 #include "plateau.h"
 #include "config.h"
@@ -39,6 +45,7 @@ std::string usage_string() {
     return ss.str();
 }
 
+// For those time when no other exception matches.
 const std::string UNKNOWN_ERROR = 
 "rovers has encountered an unknown error and must exit";
 
@@ -49,7 +56,8 @@ const std::string INVALID_INPUT_ERROR =
 
 int main(int argc, char* argv[]) {
   using namespace rv;
-  using namespace std;
+  using std::cout;
+  using std::endl;
 
   namespace po = boost::program_options;
 
@@ -95,10 +103,12 @@ int main(int argc, char* argv[]) {
   std::vector<RoverCommand> rover_commands;
   if (parse_rover_world(std::cin, upper_right, rover_commands)) {
     try {
+
+      // Run the simulation!
       std::vector<rv::Rover> squad;
       simulate_squad(rover_commands, upper_right, squad);
 
-      // Write each rover's position
+      // Write out each rover's position
       std::copy(squad.begin(), squad.end(), 
           std::ostream_iterator<rv::Rover>(std::cout, "\n"));
     }
@@ -113,6 +123,7 @@ int main(int argc, char* argv[]) {
     std::cerr << INVALID_INPUT_ERROR << endl;
   }
 
+  // Restore cin's rdbuf if we overwrote it.
   if (cin_buf) std::cin.rdbuf(cin_buf);
   ifs.close();
   return 0;

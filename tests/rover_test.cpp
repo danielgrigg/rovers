@@ -1,11 +1,10 @@
 #include "rover.h"
 #include <sstream>
 #include <stdexcept>
+#include <gtest/gtest.h>
 
 using namespace rv;
 
-#include <gtest/gtest.h>
-                                                                                
 TEST(RoverTest, can_position_rover) {
   EXPECT_EQ(7, Rover(7,3,'E').x());
   EXPECT_EQ(3, Rover(7,3,'E').y());

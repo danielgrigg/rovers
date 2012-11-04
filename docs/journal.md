@@ -143,4 +143,8 @@ file sources.  After that we need to update the docs at last and test on Ubuntu 
 clean (any?) bugs from that.  I may look into adding some more test data files too.
 Finally, we need some light code documentation.
 
+## 12 Cross platform testing
+We're 'almost' there.  Frontend is done, code is commented.  Just need to test 
+on a Ubuntu VM and finish the docs (design and readme).
+
 
