@@ -6,10 +6,11 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/assign.hpp> 
-#include <tr1/tuple>
 #include <stdexcept>
 #include <numeric>
 #include <iterator>
+#include <tr1/tuple>
+#include <tr1/functional>
 
 namespace rv {
   using namespace boost::assign;
